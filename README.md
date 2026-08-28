@@ -1,6 +1,6 @@
 # 3D座標系 変換ビジュアライザ
 
-Unity / Unreal Engine / Godot / Blender / Maya / glTF / OpenGL / Direct3D の間で異なる座標系
+Unity / Unreal Engine / Godot / Blender / Maya / Houdini / glTF / OpenGL / Direct3D の間で異なる座標系
 (利き手系・上方向・前方向・単位)を、**変換行列の導出過程つき**で学べるインタラクティブな教育用Webアプリです。
 
 外部ライブラリに依存しない**単一のHTMLファイル**で構成されており、ブラウザで開くだけで動作します。
@@ -61,11 +61,15 @@ https://aike.github.io/3dtr/
 | Godot | 右手系 | +Y | −Z | +X | 1 m |
 | Blender | 右手系 | +Z | +Y または −Y | 慣習による | 1 m |
 | Maya | 右手系 | +Y | −Z | +X | 1 cm(既定) |
+| Houdini | 右手系 | +Y | −Z | +X | 1 m(既定) |
 | glTF | 右手系 | +Y | +Z(正面が+Zを向く) | −X | 1 m(仕様で規定) |
 | OpenGL / WebGL | 右手系 | +Y | −Z(視線方向) | +X | 任意 |
 | Direct3D | 左手系 | +Y | +Z | +X | 任意 |
 
 ※ 単位・前方軸は代表的な慣習・既定値です。プロジェクト設定やエクスポート設定により異なる場合があります。
+
+※ Houdini の Z-Up 設定(Edit ▸ Preferences ▸ 3D Viewports ▸ Orientation)はビューポート表示のみに影響し、
+ジオメトリデータは Y-up のままです。
 
 ※ three.js は OpenGL / WebGL と、Babylon.js(既定)は Direct3D と同じ慣習です。
 
