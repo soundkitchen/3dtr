@@ -144,7 +144,7 @@ html[data-lang="ja"] .i18n-en{display:none!important}
     <button id="btnLangEn" type="button">EN</button>
   </span>
   <h1><span class="i18n-ja">3D座標系 変換ビジュアライザ</span><span class="i18n-en">3D Coordinate System Conversion Visualizer</span></h1>
-  <p class="sub"><span class="i18n-ja">Unity / Unreal / Godot / Blender / Maya / glTF / OpenGL / Direct3D — ツール間で「同じ向き・同じ位置」を保つための座標変換行列を学ぶ</span><span class="i18n-en">Unity / Unreal / Godot / Blender / Maya / glTF / OpenGL / Direct3D — learn the conversion matrices that keep the same orientation and position across tools</span></p>
+  <p class="sub"><span class="i18n-ja">Unity / Unreal / Godot / Blender / Maya / Houdini / glTF / OpenGL / Direct3D — ツール間で「同じ向き・同じ位置」を保つための座標変換行列を学ぶ</span><span class="i18n-en">Unity / Unreal / Godot / Blender / Maya / Houdini / glTF / OpenGL / Direct3D — learn the conversion matrices that keep the same orientation and position across tools</span></p>
 </header>
 
 <section class="controls">
@@ -247,14 +247,14 @@ html[data-lang="ja"] .i18n-en{display:none!important}
     <summary><span class="i18n-ja">単位(スケール)の違い</span><span class="i18n-en">Unit (scale) differences</span></summary>
     <div class="i18n-ja">
     <p>軸だけでなく<b>1単位の長さ</b>もツールごとに違います:
-    Unity = 1m、Godot = 1m、Blender = 1m(既定)、<b>Unreal = 1cm</b>、<b>Maya = 1cm(既定)</b>。
+    Unity = 1m、Godot = 1m、Blender = 1m(既定)、Houdini = 1m(既定)、<b>Unreal = 1cm</b>、<b>Maya = 1cm(既定)</b>。
     位置座標には単位換算の係数を掛けます(例: Unity→Unreal は ×100)。
     上のチェックボックスをオンにすると 4×4 同次変換行列としてスケール込みで表示します。
     <b>方向ベクトルや法線には単位換算を掛けません</b>。</p>
     </div>
     <div class="i18n-en">
     <p>Beyond axes, <b>the length of one unit</b> also differs per tool:
-    Unity = 1 m, Godot = 1 m, Blender = 1 m (default), <b>Unreal = 1 cm</b>, <b>Maya = 1 cm (default)</b>.
+    Unity = 1 m, Godot = 1 m, Blender = 1 m (default), Houdini = 1 m (default), <b>Unreal = 1 cm</b>, <b>Maya = 1 cm (default)</b>.
     Positions must be multiplied by the unit-conversion factor (e.g. Unity→Unreal is ×100).
     Turn on the checkbox above to show a 4×4 homogeneous matrix with the scale included.
     <b>Never apply unit conversion to direction vectors or normals</b>.</p>
@@ -313,6 +313,7 @@ html[data-lang="ja"] .i18n-en{display:none!important}
       <li><b>Godot</b> — 右手系 / Y-up / 前方 −Z(OpenGL流)/ 右 +X / 1u = 1m</li>
       <li><b>Blender</b> — 右手系 / Z-up / 前方 +Y または −Y(慣習による)/ 1u = 1m</li>
       <li><b>Maya</b> — 右手系 / Y-up / 前方 −Z(OpenGL流)/ 右 +X / 1u = 1cm(既定)</li>
+      <li><b>Houdini</b> — 右手系 / Y-up / 前方 −Z(OpenGL流)/ 右 +X / 1u = 1m(既定)。Z-Up 設定はビューポート表示のみでデータは Y-up</li>
       <li><b>glTF</b> — 右手系 / Y-up / 前方 +Z(正面が +Z を向く)/ 右 −X / 1u = 1m(仕様で規定)</li>
       <li><b>OpenGL / WebGL</b> — 右手系 / Y-up / 前方 −Z(視線方向)/ 右 +X / 単位は任意。three.js も同じ慣習</li>
       <li><b>Direct3D</b> — 左手系 / Y-up / 前方 +Z / 右 +X / 単位は任意。Babylon.js の既定も同じ慣習</li>
@@ -323,6 +324,7 @@ html[data-lang="ja"] .i18n-en{display:none!important}
       <li><b>Godot</b> — right-handed / Y-up / forward −Z (OpenGL-style) / right +X / 1u = 1 m</li>
       <li><b>Blender</b> — right-handed / Z-up / forward +Y or −Y (by convention) / 1u = 1 m</li>
       <li><b>Maya</b> — right-handed / Y-up / forward −Z (OpenGL-style) / right +X / 1u = 1 cm (default)</li>
+      <li><b>Houdini</b> — right-handed / Y-up / forward −Z (OpenGL-style) / right +X / 1u = 1 m (default); the Z-Up preference only affects the viewport, data stays Y-up</li>
       <li><b>glTF</b> — right-handed / Y-up / forward +Z (asset faces +Z) / right −X / 1u = 1 m (per spec)</li>
       <li><b>OpenGL / WebGL</b> — right-handed / Y-up / forward −Z (view direction) / right +X / units arbitrary; three.js follows the same convention</li>
       <li><b>Direct3D</b> — left-handed / Y-up / forward +Z / right +X / units arbitrary; Babylon.js defaults match</li>
@@ -348,6 +350,8 @@ const SYSTEMS = {
                "-Y": {R:[-1,0,0],U:[0,0,1], F:[0,-1,0]} } },
   maya:    { label:"Maya", hand:"RH", unit:"cm", unitScale:0.01,
     R:[1,0,0], U:[0,1,0], F:[0,0,-1] },
+  houdini: { label:"Houdini", hand:"RH", unit:"m",  unitScale:1,
+    R:[1,0,0], U:[0,1,0], F:[0,0,-1] },
   unity:   { label:"Unity", hand:"LH", unit:"m",  unitScale:1,
     R:[1,0,0], U:[0,1,0], F:[0,0,1] },
   unreal:  { label:"Unreal Engine", hand:"LH", unit:"cm", unitScale:0.01,
@@ -364,7 +368,7 @@ const SYSTEMS = {
     unitTextKey:"unitAny",
     R:[1,0,0], U:[0,1,0], F:[0,0,1] },
 };
-const ORDER = ["blender","maya","unity","unreal","godot","gltf","opengl","d3d"];
+const ORDER = ["blender","maya","houdini","unity","unreal","godot","gltf","opengl","d3d"];
 
 const state = {
   lang:"ja",
